@@ -688,6 +688,12 @@ function selectRequest(index) {
     document.querySelectorAll('.request-item').forEach(el => el.classList.remove('selected'));
     requestList.children[index].classList.add('selected');
 
+    // Hide diff toggle (only for bulk replay)
+    const diffToggle = document.querySelector('.diff-toggle');
+    if (diffToggle) {
+        diffToggle.style.display = 'none';
+    }
+
     // Parse URL
     const urlObj = new URL(selectedRequest.request.url);
     const path = urlObj.pathname + urlObj.search;
@@ -1438,6 +1444,12 @@ async function sendRequest() {
     resStatus.textContent = 'Preparing...';
     resStatus.className = 'status-badge';
     resTime.textContent = '';
+
+    // Hide diff toggle (only for bulk replay)
+    const diffToggle = document.querySelector('.diff-toggle');
+    if (diffToggle) {
+        diffToggle.style.display = 'none';
+    }
 
     try {
         const rawContent = rawRequestInput.innerText.trim();
