@@ -261,7 +261,7 @@ body {
     visibility: visible !important;
 }
 
-.star-btn {
+.star-btn, .open-url-btn {
     background: transparent;
     border: none;
     color: #5f6368;
@@ -298,7 +298,7 @@ body {
     justify-content: center;
 }
 
-.timeline-btn:hover {
+.timeline-btn:hover, .open-url-btn:hover {
     color: var(--accent-color);
 }
 
