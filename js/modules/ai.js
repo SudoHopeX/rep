@@ -135,6 +135,10 @@ export async function streamExplanationFromGemini(apiKey, model, request, onUpda
 
     let fullText = '';
 
+    // Check if the response is an array or a single object.
+    // The /v1/models/{model}:generateContent endpoint returns a single object.
+    // The content you provided was an array, so we'll assume it's an array of chunks.
+
     const chunks = Array.isArray(responseArray) ? responseArray : [responseArray];
 
     // Loop through each chunk object (data)
@@ -170,13 +174,53 @@ export function setupAIFeatures(elements) {
     const saveSettingsBtn = document.getElementById('save-settings-btn');
 
     // New and updated references for settings
-    const aiVendorSelect = document.getElementById('ai-vendor-select'); // You need to add this to your HTML
+    const aiVendorSelect = document.getElementById('ai-vendor-select'); 
     
     const anthropicApiKeyInput = document.getElementById('anthropic-api-key');
     const anthropicModelSelect = document.getElementById('anthropic-model');
+    const anthropicSettingGroup = document.getElementById('anthropic-settings-group');
+
+    const geminiApiKeyInput = document.getElementById('gemini-api-key'); 
+    const geminiModelSelect = document.getElementById('gemini-model');
+    const geminiSettingGroup = document.getElementById('gemini-settings-group');
+
+    const warnSelectAiVendor = document.getElementById('warn-select-ai-vendor');
+
     
-    const geminiApiKeyInput = document.getElementById('gemini-api-key'); // You need to add this to your HTML
-    const geminiModelSelect = document.getElementById('gemini-model'); // You need to add this to your HTML
+    // Function to show/hide the correct settings group
+    const updateVendorSettingsVisibility = () => {
+        const selectedVendor = aiVendorSelect.value;
+        
+        // 1. Hide ALL groups first
+        anthropicSettingGroup.classList.add('hidden');
+        geminiSettingGroup.classList.add('hidden');
+        warnSelectAiVendor.classList.add('hidden');
+
+        // 2. Show the relevant group
+        if (selectedVendor === 'gemini') {
+            geminiSettingGroup.classList.remove('hidden');
+
+        } else if (selectedVendor === 'anthropic') {
+            anthropicSettingGroup.classList.remove('hidden');
+
+        } else {
+            // Default / 'Select a Vendor' state
+            warnSelectAiVendor.classList.remove('hidden');
+        }
+    };
+
+    // 1. Listen for the dropdown change (manual user interaction)
+    aiVendorSelect.addEventListener('change', updateVendorSettingsVisibility);
+
+    // 2. Listen for the settings modal being opened (THE FIX for saved settings)
+    settingsBtn.addEventListener('click', () => {
+        // Now, call the function to display the correct panel based on the current dropdown value
+        aiVendorSelect.value = localStorage.getItem('ai_vendor');
+        updateVendorSettingsVisibility();
+    });
+
+    // 3. (Optional but recommended) Run once on script load
+    updateVendorSettingsVisibility();
 
 
     const aiMenuBtn = document.getElementById('ai-menu-btn');
