@@ -92,12 +92,12 @@ rep+ is a lightweight Chrome DevTools extension inspired by Burp Suite's Repeate
     - **Method Detection**: Guesses HTTP methods (GET, POST, etc.) from context.
     - **One-Click Copy**: Instantly copy relative paths as full URLs (reconstructs the base URL automatically).
 - **Theme Support**: Auto-detects system theme (Light/Dark) and includes a quick toggle button ☀️/🌙 in the UI.
-- **AI Capabilities**: Integrated with Anthropic's Claude to help you understand requests and responses.
+- **AI Capabilities**: Integrated with Anthropic's Claude & Google's Gemini to help you understand requests and responses.
   - **Explain Request**: Click the ✨ button to get a detailed explanation of the current request.
   - **Suggest Attack Vectors**: Click the ▼ menu and select **Suggest Attack Vectors** to get a prioritized security checklist of potential vulnerabilities (IDOR, SQLi, etc.) tailored to the current request.
   - **Context Menu**: Highlight any text (header, parameter, error), right-click, and select **"Explain with AI"** for a targeted explanation.
   - **Streaming Responses**: Explanations appear in real-time.
-  - **Configuration**: Configure your Anthropic API Key and Model (Claude 3.5 Sonnet, Opus, Haiku) in the Settings 🤖 menu.
+  - **Configuration**: Configure your Anthropic & Gemini API Key and Model (Claude 3.5 Sonnet, Opus, Haiku, Gemini-2.5-flash, Gemini-2.5-pro, Gemini-2.5-flash-latest) in the Settings 🤖 menu.
 
 ## ⚠️ Limitations
 
