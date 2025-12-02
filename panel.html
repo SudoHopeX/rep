@@ -66,6 +66,7 @@
                     <button class="filter-btn" data-filter="POST">POST</button>
                     <button class="filter-btn" data-filter="PUT">PUT</button>
                     <button class="filter-btn" data-filter="DELETE">DELETE</button>
+                    <button class="filter-btn" data-filter="XHR" title="Show only XHR/Fetch requests (exclude images, fonts, text files)">XHR</button>
                     <button class="filter-btn" data-filter="starred" title="Show Starred">★</button>
                 </div>
             </div>
@@ -87,6 +88,13 @@
                     <div class="pane-header">
                         <h3>Request</h3>
                         <div class="header-actions">
+                            <button id="multi-tab-btn" class="icon-btn" title="Enable Multi-tab Capture">
+                                <svg viewBox="0 0 24 24" width="14" height="14">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                                        fill="currentColor" />
+                                </svg>
+                            </button>
                             <div class="dropdown-menu-container">
                                 <button id="ai-menu-btn" class="icon-btn" title="AI Actions">
                                     <svg viewBox="0 0 24 24" width="16" height="16">
@@ -150,6 +158,21 @@
                         <button class="view-tab active" data-view="pretty" data-pane="request">Pretty</button>
                         <button class="view-tab" data-view="raw" data-pane="request">Raw</button>
                         <button class="view-tab" data-view="hex" data-pane="request">Hex</button>
+                        <div class="search-bar-container" style="flex: content; justify-content: end;">
+                            <input type="text" id="request-search" class="search-input"
+                                placeholder="Search in request...">
+                            <button id="request-search-prev" class="search-nav-btn" title="Previous match" disabled>
+                                <svg viewBox="0 0 24 24" width="14" height="14">
+                                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" fill="currentColor" />
+                                </svg>
+                            </button>
+                            <button id="request-search-next" class="search-nav-btn" title="Next match" disabled>
+                                <svg viewBox="0 0 24 24" width="14" height="14">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" fill="currentColor" />
+                                </svg>
+                            </button>
+                            <span id="request-search-count" class="search-count"></span>
+                        </div>
                     </div>
                     <div class="pane-body">
                         <div class="editor-container">
@@ -164,21 +187,6 @@
                             <div id="req-view-hex" class="view-content" style="display: none;">
                                 <pre id="req-hex-display" class="hex-display"></pre>
                             </div>
-                        </div>
-                        <div class="search-bar-container">
-                            <input type="text" id="request-search" class="search-input"
-                                placeholder="Search in request...">
-                            <button id="request-search-prev" class="search-nav-btn" title="Previous match" disabled>
-                                <svg viewBox="0 0 24 24" width="14" height="14">
-                                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" fill="currentColor" />
-                                </svg>
-                            </button>
-                            <button id="request-search-next" class="search-nav-btn" title="Next match" disabled>
-                                <svg viewBox="0 0 24 24" width="14" height="14">
-                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" fill="currentColor" />
-                                </svg>
-                            </button>
-                            <span id="request-search-count" class="search-count"></span>
                         </div>
                     </div>
                 </div>
@@ -217,13 +225,6 @@
                             </button>
                             <div class="divider-vertical"
                                 style="width: 1px; height: 20px; background: var(--border-color); margin: 0 4px;"></div>
-                            <button id="multi-tab-btn" class="icon-btn" title="Enable Multi-tab Capture">
-                                <svg viewBox="0 0 24 24" width="14" height="14">
-                                    <path
-                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
-                                        fill="currentColor" />
-                                </svg>
-                            </button>
                             <button id="theme-toggle-btn" class="icon-btn" title="Toggle Theme">
                                 <svg viewBox="0 0 24 24" width="14" height="14">
                                     <path
@@ -237,20 +238,7 @@
                         <button class="view-tab active" data-view="pretty" data-pane="response">Pretty</button>
                         <button class="view-tab" data-view="raw" data-pane="response">Raw</button>
                         <button class="view-tab" data-view="hex" data-pane="response">Hex</button>
-                    </div>
-                    <div class="pane-body">
-                        <div class="editor-container">
-                            <div id="res-view-pretty" class="view-content active">
-                                <pre id="raw-response-display"></pre>
-                            </div>
-                            <div id="res-view-raw" class="view-content" style="display: none;">
-                                <pre id="raw-response-text" class="editor raw-editor"></pre>
-                            </div>
-                            <div id="res-view-hex" class="view-content" style="display: none;">
-                                <pre id="res-hex-display" class="hex-display"></pre>
-                            </div>
-                        </div>
-                        <div class="search-bar-container">
+                        <div class="search-bar-container" style="flex: content; justify-content: end;">
                             <input type="text" id="response-search" class="search-input"
                                 placeholder="Search in response...">
                             <button id="response-search-prev" class="search-nav-btn" title="Previous match" disabled>
@@ -264,6 +252,19 @@
                                 </svg>
                             </button>
                             <span id="response-search-count" class="search-count"></span>
+                        </div>
+                    </div>
+                    <div class="pane-body">
+                        <div class="editor-container">
+                            <div id="res-view-pretty" class="view-content active">
+                                <pre id="raw-response-display"></pre>
+                            </div>
+                            <div id="res-view-raw" class="view-content" style="display: none;">
+                                <pre id="raw-response-text" class="editor raw-editor"></pre>
+                            </div>
+                            <div id="res-view-hex" class="view-content" style="display: none;">
+                                <pre id="res-hex-display" class="hex-display"></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -440,7 +441,7 @@
                 <p class="help-text">Select which AI service to use for analysis.</p>
             </div>
 
-            <fieldset id="anthropic-settings-group">
+            <fieldset id="anthropic-settings-group" class="hidden">
                 <legend>Anthropic (Claude) Configuration</legend>
                 <div class="form-group">
                     <label for="anthropic-api-key">Anthropic API Key</label>
@@ -458,7 +459,7 @@
                 </div>
             </fieldset>
             
-            <fieldset id="gemini-settings-group">
+            <fieldset id="gemini-settings-group" class="hidden">
                 <legend>Google (Gemini) Configuration</legend>
                 <div class="form-group">
                     <label for="gemini-api-key">Gemini API Key</label>
@@ -474,7 +475,12 @@
                     </select>
                 </div>
             </fieldset>
-            
+
+            <fieldset id="warn-select-ai-vendor" class="hidden">
+                <div class="form-group">
+                    <h2>Select an AI-vendor first to store credentials & preferrences locally.</h2>
+                </div>
+            </fieldset>
         </div>
         <div class="modal-footer">
             <button id="save-settings-btn" class="primary-btn">Save</button>
@@ -484,7 +490,7 @@
 
     <!-- Explanation Modal -->
     <div id="explanation-modal" class="modal">
-        <div class="modal-content" style="width: 700px; max-width: 90vw;">
+        <div class="modal-content" style="min-width: 600px; width: 60%;">
             <div class="modal-header">
                 <h3>Request Explanation</h3>
                 <button class="close-modal">&times;</button>
