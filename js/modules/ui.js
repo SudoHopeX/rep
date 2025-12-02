@@ -350,6 +350,18 @@ export function renderRequestItem(request, index) {
     const actionsDiv = document.createElement('div');
     actionsDiv.className = 'item-actions';
 
+    // NEW: Open URL Button 
+    const openUrlBtn = document.createElement('button');
+    openUrlBtn.className = 'open-url-btn';
+    openUrlBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,255.99724,255.99724" width="14px" height="14px" fill-rule="nonzero"><g fill-opacity="0" fill="#5f6368" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,255.99724v-255.99724h255.99724v255.99724z" id="bgRectangle"></path></g><g fill="#e4e3e3" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(3.55556,3.55556)"><path d="M43,12c-2.209,0 -4,1.791 -4,4c0,2.209 1.791,4 4,4h3.34375l-11.17187,11.17188c-1.562,1.562 -1.562,4.09425 0,5.65625c0.78,0.78 1.80512,1.17188 2.82813,1.17188c1.023,0 2.04812,-0.39187 2.82813,-1.17187l11.17188,-11.17187v3.34375c0,2.209 1.791,4 4,4c2.209,0 4,-1.791 4,-4v-13c0,-2.209 -1.791,-4 -4,-4zM23,14c-4.963,0 -9,4.038 -9,9v26c0,4.962 4.037,9 9,9h26c4.963,0 9,-4.038 9,-9v-8c0,-2.209 -1.791,-4 -4,-4c-2.209,0 -4,1.791 -4,4v8c0,0.551 -0.448,1 -1,1h-26c-0.552,0 -1,-0.449 -1,-1v-26c0,-0.551 0.448,-1 1,-1h8c2.209,0 4,-1.791 4,-4c0,-2.209 -1.791,-4 -4,-4z"></path></g></g></svg>`;
+    openUrlBtn.title = 'Open URL in Browser';
+
+    // Attach the handler using the full URL from request.request.url
+    openUrlBtn.onclick = (e) => {
+        e.stopPropagation(); // Prevent the main item click event
+        window.open(request.request.url);
+    };
+
     // Star Button
     const starBtn = document.createElement('button');
     starBtn.className = `star-btn ${request.starred ? 'active' : ''}`;
@@ -383,6 +395,7 @@ export function renderRequestItem(request, index) {
     numberSpan.style.display = 'inline-block';
     numberSpan.style.textAlign = 'right';
 
+    actionsDiv.appendChild(openUrlBtn); // Add it first for better visibility
     actionsDiv.appendChild(starBtn);
     actionsDiv.appendChild(timelineBtn);
 
@@ -392,7 +405,7 @@ export function renderRequestItem(request, index) {
     item.appendChild(timeSpan);
     item.appendChild(actionsDiv);
 
-    item.addEventListener('click', () => selectRequest(index));
+    item.addEventListener('click', () => { selectRequest(index); });
 
     // Remove empty state if present
     const emptyState = elements.requestList.querySelector('.empty-state');
