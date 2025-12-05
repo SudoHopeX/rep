@@ -663,13 +663,14 @@ tr.selected {
 }
 
 .pane-header {
-    padding: 12px 16px;
+    padding: 10px 16px;
     background: var(--sidebar-bg);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 48px;
+    min-height: 30px;
+    border-top-width: 0.6px;
 }
 
 .pane-header h3 {
@@ -2084,6 +2085,7 @@ pre {
     border-bottom: 1px solid var(--border-color);
     padding: 0 10px;
     gap: 2px;
+    height: 31px;
 }
 
 .view-tab {
