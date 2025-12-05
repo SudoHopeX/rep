@@ -3,7 +3,7 @@ import { state, addRequest } from './modules/state.js';
 import {
     initUI, elements, renderRequestItem, filterRequests, updateHistoryButtons,
     clearAllRequestsUI, setupResizeHandle, setupSidebarResize, setupContextMenu,
-    setupUndoRedo, captureScreenshot, exportRequests, importRequests, toggleAllGroups
+    setupUndoRedo, captureScreenshot, exportRequests, importRequests, toggleAllGroups,
 } from './modules/ui.js';
 import { setupNetworkListener } from './modules/network.js';
 import { setupBulkReplay } from './modules/bulk-replay.js';
@@ -82,9 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    document.querySelectorAll('.filter-btn:not(#color-filter-btn)').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn:not(#color-filter-btn)').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             state.currentFilter = btn.dataset.filter;
             filterRequests();
