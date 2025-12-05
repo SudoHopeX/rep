@@ -3,7 +3,8 @@
 export const state = {
     requests: [],
     selectedRequest: null,
-    currentFilter: 'all',
+    currentFilter: 'all', // all, GET, POST, etc.
+    currentColorFilter: 'all', // all, red, green, blue, etc.
     currentSearchTerm: '',
     useRegex: false,
     requestHistory: [],
@@ -23,10 +24,19 @@ export const state = {
     starredDomains: new Set(),
     // Timeline Filter
     timelineFilterTimestamp: null,
-    timelineFilterRequestIndex: null
+    timelineFilterRequestIndex: null,
+    // Group Collapse State
+    manuallyCollapsed: false,
+    // Attack Surface Grouping (per-domain)
+    attackSurfaceCategories: {}, // { requestIndex: { category, confidence, reasoning, icon } }
+    domainsWithAttackSurface: new Set(), // Track which domains have been analyzed
+    isAnalyzingAttackSurface: false
 };
 
 export function addRequest(request) {
+    // Initialize defaults
+    request.starred = false;
+    request.color = null;
     state.requests.push(request);
     return state.requests.length - 1; // Return index
 }
@@ -40,6 +50,8 @@ export function clearRequests() {
     state.currentResponse = null;
     state.timelineFilterTimestamp = null;
     state.timelineFilterRequestIndex = null;
+    state.attackSurfaceCategories = {};
+    state.domainsWithAttackSurface.clear();
 }
 
 export function addToHistory(rawText, useHttps) {
